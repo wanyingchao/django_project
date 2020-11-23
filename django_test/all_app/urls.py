@@ -12,4 +12,8 @@ urlpatterns = [
     path('device_index/', views.get_device_index_page),
     path('pop_index/', views.get_pop_index_page),
     path('signal_index/', views.get_signal_index_page),
+    path('agent_down/', views.select_agent_down),
+    path('agent_up/', views.select_agent_up),
+    path('agent_index/', views.get_agent_index_page),
+    path('JavaScript', views.get_js_page),
 ]

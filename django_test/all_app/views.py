@@ -32,6 +32,14 @@ def get_statics_results_page(request):
     return render(request, 'statics_results.html')
 
 
+def get_agent_index_page(request):
+    return render(request, 'agent_index.html')
+
+
+def get_js_page(request):
+    return render(request, 'JavaScript.js')
+
+
 def select(request):
     sql = "select * from name where id in (5, 4, 3) order by id asc;"
     results = MySql().select(sql)
@@ -141,3 +149,33 @@ def select_signal(request):
         'message': message,
         'deviceid': deviceid
     })
+
+
+def select_agent_down(request):
+    agent_phone = request.POST.get('agent_phone')
+    sql = agent_down(agent_phone)
+    results_list = MySql().select(sql)
+    # 判断，如果没有查询到值，抛异常
+    if results_list:
+        return render(request, 'agent_results.html', {
+            'results_list': results_list,
+        })
+    else:
+        return render(request, 'error.html', {
+            'text': '没有查到任何信息!'
+        })
+
+
+def select_agent_up(request):
+    agent_phone = request.POST.get('agent_phone')
+    sql = agent_up(agent_phone)
+    results_list = MySql().select(sql)
+    # 判断，如果没有查询到值，抛异常
+    if results_list:
+        return render(request, 'agent_results.html', {
+            'results_list': results_list,
+        })
+    else:
+        return render(request, 'error.html', {
+            'text': '没有查到任何信息!'
+        })

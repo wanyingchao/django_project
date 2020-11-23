@@ -111,3 +111,133 @@ def device_storage_12_sum():
     AND bsdr.storage_id not in (13,14);
     '''
     return sql
+
+
+def agent_up(agent_phone):
+    sql = '''
+    SELECT 
+    su.`name`,
+    su.account,
+    CASE oai.agent_level
+        WHEN 1 THEN
+            '总代'
+        WHEN 2 THEN
+          '一代'
+        WHEN 3 THEN
+            '二代'
+        WHEN 4 THEN
+            '三代'
+    END,
+    su1.`name`,
+    su1.account,
+    CASE oai1.agent_level
+        WHEN 1 THEN
+            '总代'
+        WHEN 2 THEN
+          '一代'
+        WHEN 3 THEN
+            '二代'
+        WHEN 4 THEN
+            '三代'
+    END,
+    su2.`name`,
+    su2.account,
+    CASE oai2.agent_level
+        WHEN 1 THEN
+            '总代'
+        WHEN 2 THEN
+          '一代'
+        WHEN 3 THEN
+            '二代'
+        WHEN 4 THEN
+            '三代'
+    END,
+    su3.`name`,
+    su3.account,
+    CASE oai3.agent_level
+        WHEN 1 THEN
+            '总代'
+        WHEN 2 THEN
+          '一代'
+        WHEN 3 THEN
+            '二代'
+        WHEN 4 THEN
+            '三代'
+    END
+    FROM ocms_agent_info oai
+    LEFT JOIN sys_user su on su.user_id = oai.user_id
+    LEFT JOIN ocms_agent_info oai1 on oai1.agent_id = oai.parentid
+    LEFT JOIN sys_user su1 on su1.user_id = oai1.user_id
+    LEFT JOIN ocms_agent_info oai2 on oai2.agent_id = oai1.parentid
+    LEFT JOIN sys_user su2 on su2.user_id = oai2.user_id
+    LEFT JOIN ocms_agent_info oai3 on oai3.agent_id = oai2.parentid
+    LEFT JOIN sys_user su3 on su3.user_id = oai3.user_id
+    WHERE su.account = '%s'
+    AND su.del_flag = 0;
+    ''' % agent_phone
+    return sql
+
+
+def agent_down(agent_phone):
+    sql = '''
+    SELECT 
+    su.`name`,
+    su.account,
+    CASE oai.agent_level
+        WHEN 1 THEN
+            '总代'
+        WHEN 2 THEN
+          '一代'
+        WHEN 3 THEN
+            '二代'
+        WHEN 4 THEN
+            '三代'
+    END,
+    su1.`name`,
+    su1.account,
+    CASE oai1.agent_level
+        WHEN 1 THEN
+            '总代'
+        WHEN 2 THEN
+          '一代'
+        WHEN 3 THEN
+            '二代'
+        WHEN 4 THEN
+            '三代'
+    END,
+    su2.`name`,
+    su2.account,
+    CASE oai2.agent_level
+        WHEN 1 THEN
+            '总代'
+        WHEN 2 THEN
+          '一代'
+        WHEN 3 THEN
+            '二代'
+        WHEN 4 THEN
+            '三代'
+    END,
+    su3.`name`,
+    su3.account,
+    CASE oai3.agent_level
+        WHEN 1 THEN
+            '总代'
+        WHEN 2 THEN
+          '一代'
+        WHEN 3 THEN
+            '二代'
+        WHEN 4 THEN
+            '三代'
+    END
+    FROM ocms_agent_info oai
+    LEFT JOIN sys_user su on su.user_id = oai.user_id
+    LEFT JOIN ocms_agent_info oai1 on oai1.parentid = oai.agent_id
+    LEFT JOIN sys_user su1 on su1.user_id = oai1.user_id
+    LEFT JOIN ocms_agent_info oai2 on oai2.parentid = oai1.agent_id
+    LEFT JOIN sys_user su2 on su2.user_id = oai2.user_id
+    LEFT JOIN ocms_agent_info oai3 on oai3.parentid = oai2.agent_id
+    LEFT JOIN sys_user su3 on su3.user_id = oai3.user_id
+    WHERE su.account = '%s'
+    AND su.del_flag = 0;
+    ''' % agent_phone
+    return sql
